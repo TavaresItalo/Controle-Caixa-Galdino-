@@ -13,6 +13,8 @@ import java.awt.Font;
 import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CadastrarCliente extends JFrame {
 
@@ -58,6 +60,12 @@ public class CadastrarCliente extends JFrame {
 		contentPane.setLayout(gbl_contentPane);
 		
 		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new TelaPrincipal().setVisible(true);
+			}
+		});
 		btnVoltar.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnVoltar.setForeground(new Color(255, 255, 255));
 		btnVoltar.setBackground(new Color(128, 64, 0));

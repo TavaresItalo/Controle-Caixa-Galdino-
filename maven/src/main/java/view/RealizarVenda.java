@@ -14,6 +14,8 @@ import javax.swing.JButton;
 import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class RealizarVenda extends JFrame {
 
@@ -67,6 +69,12 @@ public class RealizarVenda extends JFrame {
 		contentPane.add(lblTitulo, gbc_lblTitulo);
 		
 		JButton btnVoltar = new JButton("VOLTAR");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new TelaPrincipal().setVisible(true);
+			}
+		});
 		btnVoltar.setForeground(new Color(255, 255, 255));
 		btnVoltar.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnVoltar.setBackground(new Color(128, 64, 0));

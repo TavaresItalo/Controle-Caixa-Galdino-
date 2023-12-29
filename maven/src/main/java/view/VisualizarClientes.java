@@ -14,6 +14,8 @@ import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JList;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VisualizarClientes extends JFrame {
 
@@ -57,7 +59,23 @@ public class VisualizarClientes extends JFrame {
 		gbl_contentPane.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
+		JLabel lblTitulo = new JLabel("VISUALIZAR CLIENTES");
+		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblTitulo.setForeground(new Color(255, 255, 255));
+		GridBagConstraints gbc_lblTitulo = new GridBagConstraints();
+		gbc_lblTitulo.gridwidth = 3;
+		gbc_lblTitulo.insets = new Insets(0, 0, 30, 0);
+		gbc_lblTitulo.gridx = 1;
+		gbc_lblTitulo.gridy = 0;
+		contentPane.add(lblTitulo, gbc_lblTitulo);
+		
 		JButton btnNewButton = new JButton("VOLTAR");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new TelaPrincipal().setVisible(true);
+			}
+		});
 		btnNewButton.setForeground(new Color(255, 255, 255));
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnNewButton.setBackground(new Color(128, 64, 0));
@@ -75,16 +93,6 @@ public class VisualizarClientes extends JFrame {
 		gbc_list.gridx = 0;
 		gbc_list.gridy = 0;
 		contentPane.add(list, gbc_list);
-		
-		JLabel lblTitulo = new JLabel("VISUALIZAR CLIENTES");
-		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblTitulo.setForeground(new Color(255, 255, 255));
-		GridBagConstraints gbc_lblTitulo = new GridBagConstraints();
-		gbc_lblTitulo.gridwidth = 4;
-		gbc_lblTitulo.insets = new Insets(0, 0, 30, 0);
-		gbc_lblTitulo.gridx = 1;
-		gbc_lblTitulo.gridy = 1;
-		contentPane.add(lblTitulo, gbc_lblTitulo);
 		
 		JLabel lblNewLabel = new JLabel("Telefone:");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
