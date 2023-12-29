@@ -149,6 +149,12 @@ public class TelaPrincipal extends JFrame {
 		contentPane.add(btnVisualizarClientes, gbc_btnVisualizarClientes);
 		
 		JButton btnRealizarPagemento = new JButton("REALIZAR PAGAMENTO");
+		btnRealizarPagemento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new RealizarPagamento().setVisible(true);
+			}
+		});
 		btnRealizarPagemento.setBackground(new Color(128, 64, 0));
 		btnRealizarPagemento.setForeground(new Color(255, 255, 255));
 		btnRealizarPagemento.setFont(new Font("Tahoma", Font.BOLD, 20));
