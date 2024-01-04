@@ -5,13 +5,11 @@ public class Cliente {
 	private String nome;
 	private String email;
 	private String telefone;
-	private int id;
 	
-	public Cliente(String nome, String email, String telefone, int id) {	
+	public Cliente(String nome, String email, String telefone) {	
 		this.nome = nome;
 		this.email = email;
 		this.telefone = telefone;
-		this.id = id;
 	}
 
 	public Cliente() {
@@ -41,13 +39,6 @@ public class Cliente {
 		this.telefone = telefone;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 	
 	
 	

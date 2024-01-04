@@ -11,8 +11,13 @@ import javax.swing.JPanel;
 import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+
+import data.ConexaoBd;
+
 import javax.swing.JPasswordField;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Login {
 
@@ -123,6 +128,12 @@ public class Login {
 		panel.add(passwordField, gbc_passwordField);
 		
 		JButton btnEntrar = new JButton("ENTRAR");
+		btnEntrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ConexaoBd con = new ConexaoBd();
+				con.criarBancoDados();
+			}
+		});
 		btnEntrar.setForeground(new Color(255, 255, 255));
 		btnEntrar.setBackground(new Color(128, 64, 0));
 		btnEntrar.setFont(new Font("Tahoma", Font.BOLD, 20));
