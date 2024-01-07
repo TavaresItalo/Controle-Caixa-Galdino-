@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.ArrayList;
+
 import data.ExcecaoDados;
 import data.dataCliente;
 import models.Cliente;
@@ -10,7 +12,7 @@ public class ControllerCliente {
 	
 	
 	public  Cliente cadastrarCliente(String nome, String telefone, String email) throws ExcecaoControladores {
-		dataCliente dados = new dataCliente();
+		 dados = new dataCliente();
 		
 		try {
 			dados.verificarCliente(nome);
@@ -56,6 +58,33 @@ public class ControllerCliente {
 		if(email.length() < 7) {
 			throw new ExcecaoControladores("Email inválido");
 		}
+	}
+	
+	public ArrayList<String> buscarNomeTodosOsClientes() throws ExcecaoDados {
+		dados = new dataCliente();
+		ArrayList<String> clientes = new ArrayList<>();
+		
+		try {
+			clientes = dados.buscarNomesTodosOsClientes();
+		} catch (ExcecaoDados e) {
+			e.printStackTrace();
+			throw new ExcecaoDados("Erro ao buscar leitores no banco de dados");
+		} 
+		
+		return clientes;
+	}
+	
+	public Cliente buscarClientePorNome(String nome) {
+		dados = new dataCliente();
+		Cliente cliente = null;
+		
+		try {
+			cliente = dados.buscarClientePorNome(nome);
+		} catch (ExcecaoDados e) {
+			e.printStackTrace();
+		}
+		
+		return cliente;
 	}
 
 }
