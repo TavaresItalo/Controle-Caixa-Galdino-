@@ -5,8 +5,14 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import controllers.ControllerCliente;
+import controllers.ExcecaoControladores;
+
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import java.awt.Color;
 import java.awt.Font;
@@ -21,9 +27,9 @@ public class CadastrarCliente extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtNome;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField;
+	private JTextField txtTelefone;
+	private JTextField txtEmail;
+
 
 	/**
 	 * Launch the application.
@@ -116,16 +122,16 @@ public class CadastrarCliente extends JFrame {
 		gbc_lblTelefone.gridy = 3;
 		contentPane.add(lblTelefone, gbc_lblTelefone);
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.gridwidth = 2;
-		gbc_textField_1.insets = new Insets(0, 0, 15, 100);
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.gridx = 1;
-		gbc_textField_1.gridy = 3;
-		contentPane.add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		txtTelefone = new JTextField();
+		txtTelefone.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		GridBagConstraints gbc_txtTelefone = new GridBagConstraints();
+		gbc_txtTelefone.gridwidth = 2;
+		gbc_txtTelefone.insets = new Insets(0, 0, 15, 100);
+		gbc_txtTelefone.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtTelefone.gridx = 1;
+		gbc_txtTelefone.gridy = 3;
+		contentPane.add(txtTelefone, gbc_txtTelefone);
+		txtTelefone.setColumns(10);
 		
 		JLabel lblEmail = new JLabel("E-mail:");
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -137,39 +143,39 @@ public class CadastrarCliente extends JFrame {
 		gbc_lblEmail.gridy = 4;
 		contentPane.add(lblEmail, gbc_lblEmail);
 		
-		textField_2 = new JTextField();
-		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.gridwidth = 2;
-		gbc_textField_2.insets = new Insets(0, 0, 15, 100);
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.gridx = 1;
-		gbc_textField_2.gridy = 4;
-		contentPane.add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
-		
-		JLabel lblNewLabel = new JLabel("Data pagamento:");
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 15, 5);
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 5;
-		contentPane.add(lblNewLabel, gbc_lblNewLabel);
-		
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.gridwidth = 2;
-		gbc_textField.insets = new Insets(0, 0, 15, 100);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 5;
-		contentPane.add(textField, gbc_textField);
-		textField.setColumns(10);
+		txtEmail = new JTextField();
+		txtEmail.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		GridBagConstraints gbc_txtEmail = new GridBagConstraints();
+		gbc_txtEmail.gridwidth = 2;
+		gbc_txtEmail.insets = new Insets(0, 0, 15, 100);
+		gbc_txtEmail.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtEmail.gridx = 1;
+		gbc_txtEmail.gridy = 4;
+		contentPane.add(txtEmail, gbc_txtEmail);
+		txtEmail.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Cadastrar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nome = txtNome.getText();
+				String telefone = txtTelefone.getText();
+				String email = txtEmail.getText();
+				
+				ControllerCliente controller = new ControllerCliente();
+				
+				try {
+					controller.cadastrarCliente(nome, telefone, email);
+					JOptionPane.showMessageDialog(null, "O cliente foi cadastrado com sucesso.", "Success", JOptionPane.INFORMATION_MESSAGE);
+				} catch (ExcecaoControladores e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				} 
+				
+				txtNome.setText("");
+				txtTelefone.setText("");
+				txtEmail.setText("");
+			}
+		});
 		btnNewButton.setBackground(new Color(128, 64, 0));
 		btnNewButton.setForeground(new Color(255, 255, 255));
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 20));
