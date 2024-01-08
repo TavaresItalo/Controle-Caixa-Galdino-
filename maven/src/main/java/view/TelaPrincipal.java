@@ -97,7 +97,7 @@ public class TelaPrincipal extends JFrame {
 		gbc_btnCadastrarCliente.gridy = 2;
 		contentPane.add(btnCadastrarCliente, gbc_btnCadastrarCliente);
 		
-		JButton btnRealizarVenda = new JButton("REALIZAR VENDA");
+		JButton btnRealizarVenda = new JButton("   REALIZAR VENDA    ");
 		btnRealizarVenda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -114,7 +114,7 @@ public class TelaPrincipal extends JFrame {
 		gbc_btnRealizarVenda.gridy = 3;
 		contentPane.add(btnRealizarVenda, gbc_btnRealizarVenda);
 		
-		JButton btnVisualizarDebitos = new JButton("VISUALIZAR DÉBITOSs");
+		JButton btnVisualizarDebitos = new JButton("VISUALIZAR DÉBITOS");
 		btnVisualizarDebitos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -131,7 +131,7 @@ public class TelaPrincipal extends JFrame {
 		gbc_btnVisualizarDebitos.gridy = 4;
 		contentPane.add(btnVisualizarDebitos, gbc_btnVisualizarDebitos);
 		
-		JButton btnVisualizarClientes = new JButton("VISUALIZAR CIENTES ");
+		JButton btnVisualizarClientes = new JButton("VISUALIZAR CLIENTES ");
 		btnVisualizarClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();

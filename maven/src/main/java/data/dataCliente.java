@@ -336,5 +336,40 @@ public class dataCliente {
 		
 		return resultado;
 	}
+	
+	public void ExcluirCliente(String nomeCliente) throws ExcecaoDados {
+		
+		try {
+			con = new ConexaoBd().getConnection();
+			String excluirCliente = "DELETE FROM clientes WHERE nome_Cliente = ?";
+			stmt = con.prepareStatement(excluirCliente);
+			
+			stmt.setString(1, nomeCliente);
+			
+			stmt.execute();
+		} catch (ExcecaoDados e) {
+			e.printStackTrace();
+			throw new ExcecaoDados("Erro ao excluir o cliente");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if(stmt != null ) {try {
+				stmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}
+		
+			if(con != null) {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	}
 		
 }

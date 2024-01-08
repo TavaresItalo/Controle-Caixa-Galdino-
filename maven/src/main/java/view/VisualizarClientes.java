@@ -179,6 +179,17 @@ public class VisualizarClientes extends JFrame {
 		JButton btnExcluir = new JButton("EXCLUIR");
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int index = listaClientes.getSelectedIndex();
+				String nomeCliente = jListModel.get(index);
+				
+				try {
+					controller.excluirCliente(nomeCliente);
+					JOptionPane.showMessageDialog(null, "O cliente foi excluido com sucesso.", "Success", JOptionPane.INFORMATION_MESSAGE);
+				} catch (ExcecaoControladores e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
+				
 			}
 		});
 		btnExcluir.setBackground(new Color(128, 64, 0));

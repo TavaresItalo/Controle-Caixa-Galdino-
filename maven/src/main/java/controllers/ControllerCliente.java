@@ -8,11 +8,10 @@ import models.Cliente;
 
 public class ControllerCliente {
 	
-	private dataCliente dados;
+	private dataCliente dados = new dataCliente();
 	
 	
 	public  Cliente cadastrarCliente(String nome, String telefone, String email) throws ExcecaoControladores {
-		 dados = new dataCliente();
 		
 		try {
 			dados.verificarCliente(nome);
@@ -61,7 +60,6 @@ public class ControllerCliente {
 	}
 	
 	public ArrayList<String> buscarNomeTodosOsClientes() throws ExcecaoDados {
-		dados = new dataCliente();
 		ArrayList<String> clientes = new ArrayList<>();
 		
 		try {
@@ -88,9 +86,6 @@ public class ControllerCliente {
 	}
 	
 	public void AtualizarDadosCliente(String novoEmail, String novoTelefone, String nomeCliente) throws ExcecaoControladores {
-		dados = new dataCliente();
-		
-		
 		
 		if (!novoEmail.isBlank()) {
 			try {
@@ -121,6 +116,21 @@ public class ControllerCliente {
 		
 		if (novoEmail.isBlank() && novoTelefone.isBlank()) {
 			throw new ExcecaoControladores("Um dos campos email ou telefone deve ser preenchido");
+		}
+	}
+	
+	public void excluirCliente(String nomeCliente) throws ExcecaoControladores {
+		
+		try {
+			if(dados.verificarCliente(nomeCliente)) {
+				dados.ExcluirCliente(nomeCliente);
+			} else {
+				throw new ExcecaoControladores("Cliente inexistente");
+			}
+			
+		} catch (ExcecaoDados e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
