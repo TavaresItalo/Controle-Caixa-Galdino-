@@ -172,5 +172,169 @@ public class dataCliente {
 		return cliente;
 		}
 		
+	public void atualizarEmailCliente(String novoEmail, String nomeCliente) throws ExcecaoDados {
+		try {
+			con = new ConexaoBd().getConnection();
+			String atualizarEmail = "UPDATE clientes "
+					+ "SET email_Cliente = ?"
+					+ "WHERE nome_Cliente = ?";
+			stmt = con.prepareStatement(atualizarEmail);
+			stmt.setString(1, novoEmail);
+			stmt.setString(2, nomeCliente);
+			
+			stmt.execute();					
+		} catch (ExcecaoDados e) {
+			e.printStackTrace();
+			throw new ExcecaoDados("Erro ao atualizar o email");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			
+			if(stmt != null ) {try {
+				stmt.close();
+		} 		catch (SQLException e) {
+				e.printStackTrace();
+			}
+				}
+			
+			if(con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public boolean verificarEmail(String novoEmail, String nomeCliente) throws ExcecaoDados {
+		boolean resultado = false;
+		
+		try {
+			con = new ConexaoBd().getConnection();
+			String verificarEmail = "SELECT * "
+					+ "FROM clientes "
+					+ "WHERE nome_Cliente = ?";
+			stmt = con.prepareStatement(verificarEmail);
+			stmt.setString(1, nomeCliente);
+			result = stmt.executeQuery();
+			
+			if (result.next()) {
+				if (novoEmail.equalsIgnoreCase(result.getString("email_Cliente"))) {
+					resultado = true;
+				}
+			}
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} catch (ExcecaoDados e) {
+			e.printStackTrace();
+			throw new ExcecaoDados("Erro ao verificar email");
+		} finally {
+			
+			if(stmt != null ) {try {
+				stmt.close();
+		} 		catch (SQLException e) {
+				e.printStackTrace();
+			}
+				}
+			
+			if(con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				}
+			}
+		}
+		
+		return resultado;
+	}
+	
+	public void atualizarTelefoneCliente(String novoTelefone, String nomeCliente) throws ExcecaoDados{
+		try {
+			con = new ConexaoBd().getConnection();
+			String atualizarTelefone = "UPDATE clientes "
+					+ "SET telefone_Cliente = ?"
+					+ "WHERE nome_Cliente = ?";
+			stmt = con.prepareStatement(atualizarTelefone);
+			stmt.setString(1, novoTelefone);
+			stmt.setString(2, nomeCliente);
+			
+			stmt.execute();
+			
+		} catch (ExcecaoDados e) {
+			e.printStackTrace();
+			throw new ExcecaoDados("Erro ao atualizar o telefone");
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			
+			if(stmt != null ) {try {
+				stmt.close();
+		} 		catch (SQLException e) {
+				e.printStackTrace();
+			}
+				}
+			
+			if(con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public boolean verificarTelefone(String novoTelefone, String nomeCliente) throws ExcecaoDados {
+		boolean resultado = false;
+		try {
+			con = new ConexaoBd().getConnection();
+			String verificarTelefone = "SELECT * FROM clientes WHERE nome_Cliente = ?";
+			stmt = con.prepareStatement(verificarTelefone);
+			stmt.setString(1, nomeCliente);
+			
+			result = stmt.executeQuery();
+			
+			if(result.next()) {
+				if(novoTelefone.equalsIgnoreCase(result.getString("telefone_Cliente"))) {
+					resultado = true;
+				}
+			}
+		} catch (ExcecaoDados e) {
+			e.printStackTrace();
+			throw new ExcecaoDados("Erro ao verificar o telefone");
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			
+			if(stmt != null ) {try {
+				stmt.close();
+		} 		catch (SQLException e) {
+				e.printStackTrace();
+			}
+				}
+			
+			if(con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+				
+				e.printStackTrace();
+				}
+			}
+		}
+		
+		return resultado;
+	}
 		
 }

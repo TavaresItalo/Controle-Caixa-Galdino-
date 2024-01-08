@@ -86,5 +86,42 @@ public class ControllerCliente {
 		
 		return cliente;
 	}
+	
+	public void AtualizarDadosCliente(String novoEmail, String novoTelefone, String nomeCliente) throws ExcecaoControladores {
+		dados = new dataCliente();
+		
+		
+		
+		if (!novoEmail.isBlank()) {
+			try {
+				if (dados.verificarEmail(novoEmail, nomeCliente)) {
+					throw new ExcecaoControladores("O email não foi alterado. Digite o novo email.");
+				}
+				
+				dados.atualizarEmailCliente(novoEmail, nomeCliente);
+				
+			} catch (ExcecaoDados e) {
+				
+				e.printStackTrace();
+			}
+		}
+		
+		if (!novoTelefone.isBlank()) {
+			try {
+				if(dados.verificarTelefone(novoTelefone, nomeCliente)) {
+					throw new ExcecaoControladores("O telefone não foi alterado. Digite o novo telefone");
+				}
+				
+				dados.atualizarTelefoneCliente(novoTelefone, nomeCliente);
+			} catch (ExcecaoDados e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		if (novoEmail.isBlank() && novoTelefone.isBlank()) {
+			throw new ExcecaoControladores("Um dos campos email ou telefone deve ser preenchido");
+		}
+	}
 
 }

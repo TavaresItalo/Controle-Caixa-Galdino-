@@ -15,12 +15,15 @@ import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import controllers.ControllerCliente;
+import controllers.ExcecaoControladores;
 import data.ExcecaoDados;
 import models.Cliente;
 
@@ -76,7 +79,7 @@ public class VisualizarClientes extends JFrame {
 		lblTitulo.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblTitulo = new GridBagConstraints();
 		gbc_lblTitulo.gridwidth = 3;
-		gbc_lblTitulo.insets = new Insets(0, 0, 30, 0);
+		gbc_lblTitulo.insets = new Insets(0, 0, 5, 0);
 		gbc_lblTitulo.gridx = 1;
 		gbc_lblTitulo.gridy = 0;
 		contentPane.add(lblTitulo, gbc_lblTitulo);
@@ -118,7 +121,9 @@ public class VisualizarClientes extends JFrame {
 				Cliente cliente = controller.buscarClientePorNome(nomeCliente);
 				
 				txtEmail.setText(cliente.getEmail());
+				txtEmail.setEditable(false);
 				txtTelefone.setText(cliente.getTelefone());
+				txtTelefone.setEditable(false);
 				
 			}
 		});
@@ -155,7 +160,7 @@ public class VisualizarClientes extends JFrame {
 		lblEmail.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblEmail = new GridBagConstraints();
 		gbc_lblEmail.anchor = GridBagConstraints.EAST;
-		gbc_lblEmail.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEmail.insets = new Insets(0, 0, 200, 5);
 		gbc_lblEmail.gridx = 2;
 		gbc_lblEmail.gridy = 3;
 		contentPane.add(lblEmail, gbc_lblEmail);
@@ -164,7 +169,7 @@ public class VisualizarClientes extends JFrame {
 		txtEmail.setEditable(false);
 		txtEmail.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		GridBagConstraints gbc_txtEmail = new GridBagConstraints();
-		gbc_txtEmail.insets = new Insets(0, 0, 5, 5);
+		gbc_txtEmail.insets = new Insets(0, 0, 200, 5);
 		gbc_txtEmail.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtEmail.gridx = 3;
 		gbc_txtEmail.gridy = 3;
@@ -172,6 +177,10 @@ public class VisualizarClientes extends JFrame {
 		txtEmail.setColumns(10);
 		
 		JButton btnExcluir = new JButton("EXCLUIR");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnExcluir.setBackground(new Color(128, 64, 0));
 		btnExcluir.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnExcluir.setForeground(new Color(255, 255, 255));
@@ -182,6 +191,14 @@ public class VisualizarClientes extends JFrame {
 		contentPane.add(btnExcluir, gbc_btnExcluir);
 		
 		JButton btnEditar = new JButton("EDITAR");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtEmail.setText("");
+				txtEmail.setEditable(true);
+				txtTelefone.setText("");
+				txtTelefone.setEditable(true);
+			}
+		});
 		btnEditar.setForeground(new Color(255, 255, 255));
 		btnEditar.setBackground(new Color(128, 64, 0));
 		btnEditar.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -192,6 +209,25 @@ public class VisualizarClientes extends JFrame {
 		contentPane.add(btnEditar, gbc_btnEditar);
 		
 		JButton btnAtualizar = new JButton("ATUALIZAR");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String novoTelefone = txtTelefone.getText();
+				String novoEmail = txtEmail.getText();
+				
+				int index = listaClientes.getSelectedIndex();
+				String nomeCliente = jListModel.get(index);
+				
+				try {
+					controller.AtualizarDadosCliente(novoEmail, novoTelefone, nomeCliente);
+					JOptionPane.showMessageDialog(null, "Dados alterados com sucesso.", "Success", JOptionPane.INFORMATION_MESSAGE);
+					
+				} catch (ExcecaoControladores e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnAtualizar.setForeground(new Color(255, 255, 255));
 		btnAtualizar.setBackground(new Color(128, 64, 0));
 		btnAtualizar.setFont(new Font("Tahoma", Font.BOLD, 15));
