@@ -13,6 +13,27 @@ public class dataCliente {
 	Connection con = null;
 	ResultSet result;
 	
+	public void fecharStatement() {
+		if(stmt != null ) {try {
+			stmt.close();
+		} 
+			catch (SQLException e) {
+			e.printStackTrace();
+			}
+		}
+	}
+	
+	public void fecharConexao( ) {
+		if(con != null) {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	
 	public void cadastrarCliente(Cliente cliente) {
 		try {
@@ -59,21 +80,8 @@ public class dataCliente {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if(stmt != null ) {try {
-				stmt.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}}
-			
-			if(con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			fecharStatement();
+			fecharConexao();
 		}
 		return resultado;
 	}
@@ -100,21 +108,8 @@ public class dataCliente {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-				if(stmt != null ) {try {
-					stmt.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}}
-			
-				if(con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			fecharStatement();
+			fecharConexao();
 		}
 		
 		return nomeClientes;
@@ -151,22 +146,8 @@ public class dataCliente {
 			
 			e.printStackTrace();
 		} finally {
-			
-			if(stmt != null ) {try {
-				stmt.close();
-		} 		catch (SQLException e) {
-				e.printStackTrace();
-			}
-				}
-			
-			if(con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				}
-			}
+			fecharStatement();
+			fecharConexao();
 		}
 		
 		return cliente;
@@ -190,22 +171,8 @@ public class dataCliente {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
-			
-			if(stmt != null ) {try {
-				stmt.close();
-		} 		catch (SQLException e) {
-				e.printStackTrace();
-			}
-				}
-			
-			if(con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				}
-			}
+			fecharStatement();
+			fecharConexao();
 		}
 	}
 	
@@ -234,22 +201,8 @@ public class dataCliente {
 			e.printStackTrace();
 			throw new ExcecaoDados("Erro ao verificar email");
 		} finally {
-			
-			if(stmt != null ) {try {
-				stmt.close();
-		} 		catch (SQLException e) {
-				e.printStackTrace();
-			}
-				}
-			
-			if(con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				}
-			}
+			fecharStatement();
+			fecharConexao();
 		}
 		
 		return resultado;
@@ -275,21 +228,8 @@ public class dataCliente {
 			e.printStackTrace();
 		} finally {
 			
-			if(stmt != null ) {try {
-				stmt.close();
-		} 		catch (SQLException e) {
-				e.printStackTrace();
-			}
-				}
-			
-			if(con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				}
-			}
+			fecharStatement();
+			fecharConexao();
 		}
 	}
 	
@@ -317,21 +257,8 @@ public class dataCliente {
 			e.printStackTrace();
 		} finally {
 			
-			if(stmt != null ) {try {
-				stmt.close();
-		} 		catch (SQLException e) {
-				e.printStackTrace();
-			}
-				}
-			
-			if(con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-				
-				e.printStackTrace();
-				}
-			}
+			fecharStatement();
+			fecharConexao();
 		}
 		
 		return resultado;
@@ -354,22 +281,9 @@ public class dataCliente {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			if(stmt != null ) {try {
-				stmt.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}}
-		
-			if(con != null) {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			fecharStatement();
+			fecharConexao();
 		}
-	}
 	}
 		
 }
