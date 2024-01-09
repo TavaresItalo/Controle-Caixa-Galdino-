@@ -5,9 +5,18 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
+
+import controllers.ControllerCliente;
+import controllers.ControllerVendas;
+import controllers.ExcecaoControladores;
+import data.ExcecaoDados;
+
 import java.awt.Color;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import java.awt.Font;
 import javax.swing.JButton;
@@ -15,14 +24,18 @@ import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.JFormattedTextField;
 
 public class RealizarVenda extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtValor;
-	private JTextField txtData;
+	private ControllerCliente controllerCliente = new ControllerCliente();
+	private ControllerVendas controllerVendas = new ControllerVendas();
 
 	/**
 	 * Launch the application.
@@ -115,16 +128,22 @@ public class RealizarVenda extends JFrame {
 		gbc_lblData.gridy = 3;
 		contentPane.add(lblData, gbc_lblData);
 		
-		txtData = new JTextField();
-		txtData.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		GridBagConstraints gbc_txtData = new GridBagConstraints();
-		gbc_txtData.gridwidth = 3;
-		gbc_txtData.insets = new Insets(0, 0, 15, 100);
-		gbc_txtData.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtData.gridx = 1;
-		gbc_txtData.gridy = 3;
-		contentPane.add(txtData, gbc_txtData);
-		txtData.setColumns(10);
+		MaskFormatter mascara= null;
+		try {
+		 mascara = new MaskFormatter("##/##/####");
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		JFormattedTextField ftxtData = new JFormattedTextField( mascara);
+		ftxtData.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		GridBagConstraints gbc_ftxtData = new GridBagConstraints();
+		gbc_ftxtData.insets = new Insets(0, 0, 15, 100);
+		gbc_ftxtData.fill = GridBagConstraints.HORIZONTAL;
+		gbc_ftxtData.gridx = 1;
+		gbc_ftxtData.gridy = 3;
+		contentPane.add(ftxtData, gbc_ftxtData);
 		
 		JLabel lblCliente = new JLabel("Cliente:");
 		lblCliente.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -137,6 +156,16 @@ public class RealizarVenda extends JFrame {
 		contentPane.add(lblCliente, gbc_lblCliente);
 		
 		JComboBox comboBoxClientes = new JComboBox();
+		
+		try {
+			ArrayList<String> nomeClientes = controllerCliente.buscarNomeTodosOsClientes();
+			for (String nome : nomeClientes) {
+				comboBoxClientes.addItem(nome);
+			}
+		} catch (ExcecaoDados e1) {
+			e1.printStackTrace();
+		}
+		
 		comboBoxClientes.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		GridBagConstraints gbc_comboBoxClientes = new GridBagConstraints();
 		gbc_comboBoxClientes.gridwidth = 3;
@@ -147,6 +176,25 @@ public class RealizarVenda extends JFrame {
 		contentPane.add(comboBoxClientes, gbc_comboBoxClientes);
 		
 		JButton btnFinalizar = new JButton("FINALIZAR");
+		btnFinalizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String valor = txtValor.getText();
+				String data = ftxtData.getText();
+				String nomeCliente = comboBoxClientes.getSelectedItem().toString();
+				
+				try {
+					controllerVendas.realizarVenda(valor, data, nomeCliente);
+				} catch (ExcecaoControladores e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
+				
+				JOptionPane.showMessageDialog(null, "A venda foi cadastrado com sucesso.", "Success", JOptionPane.INFORMATION_MESSAGE);
+				
+				txtValor.setText("");
+				ftxtData.setText("");
+			}
+		});
 		btnFinalizar.setForeground(new Color(255, 255, 255));
 		btnFinalizar.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnFinalizar.setBackground(new Color(128, 64, 0));

@@ -165,11 +165,12 @@ public class CadastrarCliente extends JFrame {
 				
 				try {
 					controller.cadastrarCliente(nome, telefone, email);
-					JOptionPane.showMessageDialog(null, "O cliente foi cadastrado com sucesso.", "Success", JOptionPane.INFORMATION_MESSAGE);
 				} catch (ExcecaoControladores e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				} 
+				
+				JOptionPane.showMessageDialog(null, "O cliente foi cadastrado com sucesso.", "Success", JOptionPane.INFORMATION_MESSAGE);
 				
 				txtNome.setText("");
 				txtTelefone.setText("");

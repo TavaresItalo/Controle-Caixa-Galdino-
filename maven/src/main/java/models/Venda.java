@@ -1,12 +1,15 @@
 package models;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 public class Venda {
 	
 	private double valor;
-	private String data;
+	private LocalDate  data;
 	private Cliente cliente;
 	
-	public Venda(double valor, String data, Cliente cliente) {
+	public Venda(double valor, LocalDate data, Cliente cliente) {
 		super();
 		this.valor = valor;
 		this.data = data;
@@ -25,11 +28,11 @@ public class Venda {
 		this.valor = valor;
 	}
 
-	public String getData() {
+	public LocalDate getData() {
 		return data;
 	}
 
-	public void setData(String data) {
+	public void setData(LocalDate data) {
 		this.data = data;
 	}
 
