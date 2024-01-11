@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -12,6 +14,8 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
+import controllers.ControllerAdministrador;
+import controllers.ExcecaoControladores;
 import data.ConexaoBd;
 
 import javax.swing.JPasswordField;
@@ -24,6 +28,7 @@ public class Login {
 	private JFrame frame;
 	private JTextField txtLogin;
 	private JPasswordField passwordField;
+	private ControllerAdministrador controller;
 
 	/**
 	 * Launch the application.
@@ -132,6 +137,32 @@ public class Login {
 			public void actionPerformed(ActionEvent e) {
 				ConexaoBd con = new ConexaoBd();
 				con.criarBancoDados();
+				
+				String login = txtLogin.getText();
+				char[] senha = passwordField.getPassword();
+				
+				controller = new ControllerAdministrador();
+				
+				try {
+					
+					controller.realizarLogin(login, senha);
+					
+					if(controller.realizarLogin(login, senha)) {
+						
+						JOptionPane.showMessageDialog(null, "Login realizado com sucesso.", "Success", JOptionPane.INFORMATION_MESSAGE);
+						frame.dispose();
+						new TelaPrincipal().setVisible(true);
+					}
+					
+				} catch (ExcecaoControladores exc) {
+					JOptionPane.showMessageDialog(null, exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					exc.printStackTrace();
+				}
+				
+				
+				
+				
+				
 			}
 		});
 		btnEntrar.setForeground(new Color(255, 255, 255));

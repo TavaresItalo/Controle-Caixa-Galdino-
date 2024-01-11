@@ -16,8 +16,10 @@ public class ControllerVendas {
 		
 		verificarCamposVenda(valor, data, nomeCliente);
 		LocalDate novaData = formatarData(data);
+		String novoValor = formatarValor(valor);
+		
 		Cliente cliente = controllerCliente.buscarClientePorNome(nomeCliente);
-		double valorVenda = Double.parseDouble(valor);
+		double valorVenda = Double.parseDouble(novoValor);
 		
 		Venda venda = new Venda(valorVenda, novaData, cliente);
 		
@@ -34,8 +36,8 @@ public class ControllerVendas {
 		if(valor.isBlank()) {
 			throw new ExcecaoControladores("O campo valor não pode ser vazio.");
 		}
-		if(valor.matches("^[0-9]+$")) {
-			throw new ExcecaoControladores("O campo não pode conter letras.");
+		if(!valor.matches("^[0-9].+$")) {
+			throw new ExcecaoControladores("O campo valor não pode conter letras.");
 		}
 		if(valor.contains(",")) {
 			throw new ExcecaoControladores("O valor deve estar no formato ##.###, não pode possuir vírgulas.");
@@ -54,6 +56,16 @@ public class ControllerVendas {
 		LocalDate novaData = LocalDate.of(Integer.parseInt(dataSeparada[2]), Integer.parseInt(dataSeparada[1]), Integer.parseInt(dataSeparada[0]));
 		
 		return novaData;
+	}
+	
+	public String formatarValor(String valor) {
+		String novoValor = null;
+		
+		if(!valor.matches(".")) {
+			novoValor = valor + ".0";
+		}
+		
+		return novoValor;
 	}
 	
 	
