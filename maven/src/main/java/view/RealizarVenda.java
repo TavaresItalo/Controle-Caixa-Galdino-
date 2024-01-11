@@ -181,18 +181,23 @@ public class RealizarVenda extends JFrame {
 				String valor = txtValor.getText();
 				String data = ftxtData.getText();
 				String nomeCliente = comboBoxClientes.getSelectedItem().toString();
+				boolean condicao = false;
 				
 				try {
 					controllerVendas.realizarVenda(valor, data, nomeCliente);
+					condicao = true;
 				} catch (ExcecaoControladores e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
 				
+				if(condicao) {
 				JOptionPane.showMessageDialog(null, "A venda foi cadastrado com sucesso.", "Success", JOptionPane.INFORMATION_MESSAGE);
 				
 				txtValor.setText("");
 				ftxtData.setText("");
+				
+				}
 			}
 		});
 		btnFinalizar.setForeground(new Color(255, 255, 255));
