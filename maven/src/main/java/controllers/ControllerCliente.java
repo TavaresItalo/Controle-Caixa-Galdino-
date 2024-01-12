@@ -133,5 +133,28 @@ public class ControllerCliente {
 			e.printStackTrace();
 		}
 	}
+	
+	public double buscarDebitoCliente(String nomeCliente) {
+		
+		double debito = 0;
+		
+		try {
+			debito = dados.buscarDebitoCliente(nomeCliente);
+		} catch (ExcecaoDados e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return debito;
+	}
+	
+	public void realizarPagamento(String nomeCliente) {
+		
+		try {
+			dados.realizarPagamento(nomeCliente);
+		} catch (ExcecaoDados e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }

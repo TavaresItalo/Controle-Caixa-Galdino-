@@ -192,7 +192,7 @@ public class RealizarVenda extends JFrame {
 				}
 				
 				if(condicao) {
-				JOptionPane.showMessageDialog(null, "A venda foi cadastrado com sucesso.", "Success", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "A venda foi realizada com sucesso.", "Success", JOptionPane.INFORMATION_MESSAGE);
 				
 				txtValor.setText("");
 				ftxtData.setText("");

@@ -159,6 +159,7 @@ public class VisualizarClientes extends JFrame {
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblEmail.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblEmail = new GridBagConstraints();
+		gbc_lblEmail.gridheight = 8;
 		gbc_lblEmail.anchor = GridBagConstraints.EAST;
 		gbc_lblEmail.insets = new Insets(0, 0, 200, 5);
 		gbc_lblEmail.gridx = 2;
@@ -169,6 +170,7 @@ public class VisualizarClientes extends JFrame {
 		txtEmail.setEditable(false);
 		txtEmail.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		GridBagConstraints gbc_txtEmail = new GridBagConstraints();
+		gbc_txtEmail.gridheight = 8;
 		gbc_txtEmail.insets = new Insets(0, 0, 200, 5);
 		gbc_txtEmail.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtEmail.gridx = 3;

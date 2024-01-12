@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import models.Cliente;
+import models.Venda;
 
 public class dataCliente {
 	PreparedStatement stmt;
@@ -38,12 +39,13 @@ public class dataCliente {
 	public void cadastrarCliente(Cliente cliente) {
 		try {
 			con = new ConexaoBd().getConnection();
-			String cadastrarCliente = "INSERT INTO clientes (nome_Cliente, telefone_Cliente, email_Cliente) VALUES (?, ?, ?)";
+			String cadastrarCliente = "INSERT INTO clientes (nome_Cliente, telefone_Cliente, email_Cliente, total_debito) VALUES (?, ?, ?, ?)";
 			
 			stmt = con.prepareStatement(cadastrarCliente);
 			stmt.setString(1, cliente.getNome());
 			stmt.setString(2, cliente.getTelefone());
 			stmt.setString(3, cliente.getEmail());
+			stmt.setDouble(4, cliente.getTotal_debito());
 			
 			stmt.execute();
 		} catch (ExcecaoDados e) {
@@ -283,6 +285,87 @@ public class dataCliente {
 		} finally {
 			fecharStatement();
 			fecharConexao();
+		}
+	}
+	
+	public void atualizarDebitoClientes(double valor, String nomeCliente) {
+		
+		double debitoAtual = 0;
+		
+		try {
+			debitoAtual = buscarDebitoCliente(nomeCliente);
+		} catch (ExcecaoDados e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		double novoDebito = debitoAtual + valor;
+		
+		try {
+			con = new ConexaoBd().getConnection();
+			String atualizarDebito = "UPDATE clientes SET total_debito = ? WHERE (nome_Cliente = ?)";
+			stmt = con.prepareStatement(atualizarDebito);
+			
+			stmt.setDouble(1, novoDebito);
+			stmt.setString(2, nomeCliente);
+			
+			stmt.execute();
+			
+		} catch (ExcecaoDados e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public double buscarDebitoCliente(String nomeCliente) throws ExcecaoDados {
+		double debito = 0;
+		
+		try {
+			con = new ConexaoBd().getConnection();
+			String buscarDebito = "SELECT * FROM clientes WHERE nome_Cliente = ?";
+			stmt = con.prepareStatement(buscarDebito);
+			stmt.setString(1, nomeCliente);
+			
+			result = stmt.executeQuery();
+			
+			if(result.next()) {
+				debito = result.getDouble("total_debito");
+			}
+			
+			
+		} catch (ExcecaoDados e) {
+			e.printStackTrace();
+			throw new ExcecaoDados("Erro ao buscar débito");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return debito;
+	}
+	
+	public void realizarPagamento(String nomeCliente) throws ExcecaoDados {
+		
+		try {
+			con = new ConexaoBd().getConnection();
+			String realizarPagamento = "UPDATE clientes SET total_debito = ? WHERE nome_Cliente = ?";
+			stmt = con.prepareStatement(realizarPagamento);
+			
+			stmt.setDouble(1, 0);
+			stmt.setString(2, nomeCliente);
+			
+			stmt.execute();
+			
+		} catch (ExcecaoDados e) {
+			e.printStackTrace();
+			throw new ExcecaoDados("Erro ao realizar pagamento.");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 		

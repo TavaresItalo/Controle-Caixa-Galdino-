@@ -7,49 +7,41 @@ public class ControllerAdministrador {
 	
 	private DataAdmin dados = new DataAdmin();
 	
-	public boolean realizarLogin(String login, char[] senha) throws ExcecaoControladores {
+	public void realizarLogin(String login, char[] senha) throws ExcecaoControladores {
 		
-		boolean resultado = false;
 		String stringSenha= "";
 		
 		for (char caractere : senha) {
 			stringSenha = stringSenha + caractere;
 		}
 		
+		if(login.isBlank()) {
+			throw new ExcecaoControladores("O login não pode estra em branco.");
+		}
+		
+		if(stringSenha.isBlank()) {
+			throw new ExcecaoControladores("A senha não pode estar em branco.");
+		}
+		
+		if(stringSenha.length() < 8) {
+			throw new ExcecaoControladores("A senha não pode ter menos de 8 caracteres.");
+		}
+		
 		try {
-			verificarCamposLogin(login, stringSenha);
-			
-			String loginAdmin = dados.buscarLoginAdministrador();
-			String senhaAdmin = dados.buscarSenhaAdministrador();
-			
-			if (login.matches(loginAdmin) && stringSenha.matches(senhaAdmin)) {
-				resultado = true;
-			} else {
-				throw new ExcecaoControladores("E-mail ou senha incorretos ");
+			if(!dados.buscarSenhaAdministrador(stringSenha)) {
+				throw new ExcecaoControladores("Senha incorreta.");
 			}
-			
+			if(!dados.buscarLoginAdministrador(login)) {
+				throw new ExcecaoControladores("Login incorreto.");
+			}
 		} catch (ExcecaoDados e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (ExcecaoControladores e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
-		return resultado;
-	}
-	
-	public void verificarCamposLogin(String login, String senha) throws ExcecaoControladores {
 		
-		if(login.isBlank()) {
-			throw new ExcecaoControladores("O campo login não pode ser vazio");
-		}
-		if(senha.isBlank()) {
-			throw new ExcecaoControladores("O campo senha não pode ser vazio");
-		}
-		if(senha.length() < 8) {
-			throw new ExcecaoControladores("A senha deve ter 8 caracteres");
-		}
+		
 	}
-
 }
+	
+

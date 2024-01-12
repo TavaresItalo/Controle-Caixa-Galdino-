@@ -142,29 +142,28 @@ public class Login {
 				char[] senha = passwordField.getPassword();
 				
 				controller = new ControllerAdministrador();
+				boolean condicao = false;
 				
 				try {
 					
 					controller.realizarLogin(login, senha);
-					
-					if(controller.realizarLogin(login, senha)) {
-						
-						JOptionPane.showMessageDialog(null, "Login realizado com sucesso.", "Success", JOptionPane.INFORMATION_MESSAGE);
-						frame.dispose();
-						new TelaPrincipal().setVisible(true);
-					}
+					condicao = true;
 					
 				} catch (ExcecaoControladores exc) {
 					JOptionPane.showMessageDialog(null, exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 					exc.printStackTrace();
 				}
 				
-				
-				
-				
-				
+				if (condicao) {
+					
+					JOptionPane.showMessageDialog(null, "Login realizado com sucesso.", "Success", JOptionPane.INFORMATION_MESSAGE);
+					frame.dispose();
+					new TelaPrincipal().setVisible(true);
+				}
+			
 			}
 		});
+		
 		btnEntrar.setForeground(new Color(255, 255, 255));
 		btnEntrar.setBackground(new Color(128, 64, 0));
 		btnEntrar.setFont(new Font("Tahoma", Font.BOLD, 20));

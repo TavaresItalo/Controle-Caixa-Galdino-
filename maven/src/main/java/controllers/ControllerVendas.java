@@ -50,6 +50,7 @@ public class ControllerVendas {
 		}
 	}
 	
+	
 	public LocalDate formatarData(String data) {
 		String[] dataSeparada = data.split("/");
 		

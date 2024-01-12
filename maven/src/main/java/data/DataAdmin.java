@@ -13,6 +13,30 @@ public class DataAdmin {
 	private PreparedStatement stmt;
 	private ResultSet result;
 	
+	public Connection getCon() {
+		return con;
+	}
+
+	public void setCon(Connection con) {
+		this.con = con;
+	}
+
+	public PreparedStatement getStmt() {
+		return stmt;
+	}
+
+	public void setStmt(PreparedStatement stmt) {
+		this.stmt = stmt;
+	}
+
+	public ResultSet getResult() {
+		return result;
+	}
+
+	public void setResult(ResultSet result) {
+		this.result = result;
+	}
+
 	public void fecharStatement() {
 		if(stmt != null ) {try {
 			stmt.close();
@@ -34,21 +58,19 @@ public class DataAdmin {
 		}
 	}
 	
-	public String buscarLoginAdministrador() throws ExcecaoDados {
+	public boolean buscarLoginAdministrador(String login) throws ExcecaoDados {
 		
-		String loginAdmin = null;
+		boolean resultado = false;
 		
 		try {
 			con = new ConexaoBd().getConnection();
-			String buscarLogin = "SELECT * FROM administrador";
+			String buscarLogin = "SELECT * FROM administrador WHERE login_Administrador = ?";
 			stmt = con.prepareStatement(buscarLogin);
+			stmt.setString(1, login);
 			
 			result = stmt.executeQuery();
 			
-			if(result.next()) {
-				loginAdmin = result.getString("login_Administrador");
-			}
-			
+			resultado = result.next();
 			
 		} catch (ExcecaoDados e) {
 			e.printStackTrace();
@@ -61,24 +83,24 @@ public class DataAdmin {
 			fecharConexao();
 		}
 		
-		return loginAdmin;
+		return resultado;
+		
 	}
 	
 	
-	public String buscarSenhaAdministrador() throws ExcecaoDados {
+	public boolean buscarSenhaAdministrador(String senha) throws ExcecaoDados {
 		
-		String senhaAdmin = null;
+		boolean resultado = false;
 		
 		try {
 			con = new ConexaoBd().getConnection();
-			String buscarSenha = "SELECT * FROM administrador";
+			String buscarSenha = "SELECT * FROM administrador WHERE senha_Administrador = ?";
 			stmt = con.prepareStatement(buscarSenha);
-			
+			stmt.setString(1, senha);
 			result = stmt.executeQuery();
 			
-			if(result.next()) {
-				senhaAdmin = result.getString("senha_Administrador");
-			}
+			resultado = result.next();
+			
 		} catch (ExcecaoDados e) {
 			e.printStackTrace();
 			throw new ExcecaoDados("Erro ao buscar senha");
@@ -90,6 +112,6 @@ public class DataAdmin {
 			fecharConexao();
 		}
 		
-		return senhaAdmin;
+		return resultado;
 	}
 }

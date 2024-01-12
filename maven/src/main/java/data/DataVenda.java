@@ -3,6 +3,7 @@ package data;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import models.Cliente;
@@ -11,6 +12,8 @@ import models.Venda;
 public class DataVenda {
 	private Connection con = null;
 	private PreparedStatement stmt;
+	private ResultSet result;
+	private dataCliente dadosCliente = new dataCliente();
 	
 	public void fecharStatement() {
 		if(stmt != null ) {try {
@@ -48,6 +51,8 @@ public class DataVenda {
 			
 			stmt.execute();
 			
+			dadosCliente.atualizarDebitoClientes(venda.getValor(), nomeCliente);
+			
 		} catch (ExcecaoDados e) {
 			e.printStackTrace();
 			throw new ExcecaoDados("Erro ao realizar venda");
@@ -57,7 +62,10 @@ public class DataVenda {
 		} finally {
 			fecharStatement();
 			fecharConexao();
-			
 		}
+		
+		
 	}
+	
+	
 }
