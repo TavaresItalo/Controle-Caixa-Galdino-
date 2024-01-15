@@ -156,5 +156,12 @@ public class ControllerCliente {
 			e.printStackTrace();
 		}
 	}
+	
+	public int buscarTotalVendas(String nomeCliente) {
+		
+		int totalVendas = dados.buscarTotalVendas(nomeCliente);
+		return totalVendas;
+		
+	}
 
 }

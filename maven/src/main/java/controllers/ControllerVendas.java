@@ -1,6 +1,7 @@
 package controllers;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import data.DataVenda;
 import data.ExcecaoDados;
@@ -67,6 +68,20 @@ public class ControllerVendas {
 		}
 		
 		return novoValor;
+	}
+	
+	public ArrayList<Venda> buscarVendasCliente(String nomeCliente) {
+		
+		ArrayList<Venda> vendasCliente = null;
+		
+		try {
+			vendasCliente = dados.buscarVendasCliente(nomeCliente);
+		} catch (ExcecaoDados e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return vendasCliente;
 	}
 	
 	

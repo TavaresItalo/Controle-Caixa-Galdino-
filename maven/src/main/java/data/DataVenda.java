@@ -5,6 +5,9 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 
 import models.Cliente;
 import models.Venda;
@@ -66,6 +69,45 @@ public class DataVenda {
 		
 		
 	}
+	
+	public ArrayList<Venda> buscarVendasCliente(String nomeCliente) throws ExcecaoDados {
+		
+		ArrayList<Venda> vendasCliente = new ArrayList<Venda>();
+		Cliente cliente = new Cliente(nomeCliente);
+		
+		try {
+			con = new ConexaoBd().getConnection();
+			String buscarVendas = "SELECT * FROM vendas WHERE cliente_fk = ?";
+			stmt = con.prepareStatement(buscarVendas);
+			stmt.setString(1, nomeCliente);
+			
+			result = stmt.executeQuery();
+			
+			while(result.next()) {
+					
+				double valor = result.getDouble("valor");
+				Date dataSql = result.getDate("data");
+				java.util.Date utilDate = new java.util.Date(dataSql.getTime());
+				LocalDate dataVenda = LocalDate.ofInstant(utilDate.toInstant(), ZoneId.systemDefault());
+				Venda venda = new Venda(valor, dataVenda, cliente);
+				vendasCliente.add(venda);
+				
+			}
+			
+		} catch (ExcecaoDados e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			fecharStatement();
+			fecharConexao();
+		}
+		
+		return vendasCliente;
+	}
+	
 	
 	
 }

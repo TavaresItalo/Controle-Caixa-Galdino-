@@ -368,5 +368,31 @@ public class dataCliente {
 			e.printStackTrace();
 		}
 	}
+	
+	public int buscarTotalVendas(String nomeCliente) {
+		
+		int totalVendas = 0;
+		
+		try {
+			con = new ConexaoBd().getConnection();
+			String buscarTotalVendas = "SELECT * FROM clientes WHERE nome_Cliente = ?";
+			stmt = con.prepareStatement(buscarTotalVendas);
+			
+			stmt.setString(1, nomeCliente);
+			
+			result = stmt.executeQuery();
+			if(result.next()) {
+				totalVendas = result.getInt("total_Vendas");
+			}
+		} catch (ExcecaoDados e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return totalVendas;
+	}
 		
 }

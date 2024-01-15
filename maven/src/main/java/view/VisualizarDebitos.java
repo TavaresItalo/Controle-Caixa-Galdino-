@@ -5,6 +5,14 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import controllers.ControllerCliente;
+import controllers.ControllerVendas;
+import data.ExcecaoDados;
+import models.Cliente;
+import models.Venda;
+import models.VendasTableModel;
+
 import java.awt.GridBagLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -12,11 +20,17 @@ import java.awt.GridBagConstraints;
 import java.awt.Font;
 import java.awt.Insets;
 import javax.swing.JTextField;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.table.DefaultTableModel;
 
 public class VisualizarDebitos extends JFrame {
 
@@ -24,6 +38,8 @@ public class VisualizarDebitos extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtTotal;
 	private JTable tableDebitos;
+	private ControllerCliente controllerCliente = new ControllerCliente();
+	private ControllerVendas controllerVendas = new ControllerVendas();
 
 	/**
 	 * Launch the application.
@@ -45,6 +61,7 @@ public class VisualizarDebitos extends JFrame {
 	 * Create the frame.
 	 */
 	public VisualizarDebitos() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 688, 529);
 		contentPane = new JPanel();
@@ -85,7 +102,38 @@ public class VisualizarDebitos extends JFrame {
 		gbc_btnVoltar.gridy = 0;
 		contentPane.add(btnVoltar, gbc_btnVoltar);
 		
-		JList listaClientes = new JList();
+		DefaultListModel<String> jListModel = new DefaultListModel();
+		ArrayList<String> nomeClientes = new ArrayList<>();
+		
+		try {
+			nomeClientes = controllerCliente.buscarNomeTodosOsClientes();
+			jListModel.addAll(nomeClientes);;
+		} catch (ExcecaoDados e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		JList listaClientes = new JList(jListModel);
+		tableDebitos = new JTable();
+		
+		listaClientes.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				
+				int index = listaClientes.getSelectedIndex();
+				String nomeCliente = jListModel.get(index);
+				
+				Cliente cliente = controllerCliente.buscarClientePorNome(nomeCliente);
+				txtTotal.setText(controllerCliente.buscarDebitoCliente(nomeCliente) + "R$");
+				
+				ArrayList<Venda> vendasCliente = controllerVendas.buscarVendasCliente(nomeCliente);
+				
+				VendasTableModel model = new VendasTableModel(vendasCliente);
+				
+				tableDebitos.setModel(model);
+				
+			}
+		});
+		
 		listaClientes.setForeground(new Color(0, 0, 0));
 		listaClientes.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		GridBagConstraints gbc_listaClientes = new GridBagConstraints();
@@ -95,8 +143,10 @@ public class VisualizarDebitos extends JFrame {
 		gbc_listaClientes.gridx = 0;
 		gbc_listaClientes.gridy = 1;
 		contentPane.add(listaClientes, gbc_listaClientes);
+	
 		
-		tableDebitos = new JTable();
+		tableDebitos.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		tableDebitos.setEnabled(false);
 		GridBagConstraints gbc_tableDebitos = new GridBagConstraints();
 		gbc_tableDebitos.gridwidth = 2;
 		gbc_tableDebitos.gridheight = 11;
