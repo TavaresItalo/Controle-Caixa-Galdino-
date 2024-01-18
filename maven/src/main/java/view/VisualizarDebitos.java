@@ -7,7 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controllers.ControllerCliente;
+import controllers.ControllerPdf;
 import controllers.ControllerVendas;
+import controllers.ExcecaoControladores;
 import data.ExcecaoDados;
 import models.Cliente;
 import models.Venda;
@@ -23,6 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
@@ -40,6 +43,7 @@ public class VisualizarDebitos extends JFrame {
 	private JTable tableDebitos;
 	private ControllerCliente controllerCliente = new ControllerCliente();
 	private ControllerVendas controllerVendas = new ControllerVendas();
+	private ControllerPdf controllerPdf = new ControllerPdf();
 
 	/**
 	 * Launch the application.
@@ -177,6 +181,25 @@ public class VisualizarDebitos extends JFrame {
 		txtTotal.setColumns(10);
 		
 		JButton btnGerarPdf = new JButton("GERAR \r\nPDF");
+		btnGerarPdf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int index = listaClientes.getSelectedIndex();
+				String nomeCliente = jListModel.get(index);
+				
+				ArrayList<Venda> vendasCliente = controllerVendas.buscarVendasCliente(nomeCliente);
+				
+				try {
+					controllerPdf.criarPdfVendas(vendasCliente, nomeCliente);
+				} catch (ExcecaoControladores e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
+				
+				JOptionPane.showMessageDialog(null, "O pdf foi gerado com sucesso. Acesse a pasta 'PDFS' para visualizar", "Success", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
 		btnGerarPdf.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnGerarPdf.setForeground(new Color(255, 255, 255));
 		btnGerarPdf.setBackground(new Color(128, 64, 0));
